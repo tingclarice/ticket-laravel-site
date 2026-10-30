@@ -10,6 +10,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#f7f1e8">
         <meta name="description" content="Register your interest in a fan-made Laufey concert gathering.">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Laufey Live — Fan registration</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -53,9 +54,10 @@
                 </div>
                 <p class="card-kicker">Save your place in the daydream</p>
                 <h2 id="form-title">Register your interest</h2>
-                <p class="card-intro">Leave your details and let us know what kind of evening you’re dreaming of.</p>
+                <p class="card-intro">Leave your details and let us know what kind of evening you’re dreaming of. We’ll send your confirmation by email.</p>
 
-                <form id="registration-form" novalidate>
+                <form id="registration-form" action="{{ route('interest-registrations.store') }}" method="POST" novalidate>
+                    @csrf
                     <div class="form-field">
                         <label for="full-name">Full name <span aria-hidden="true">*</span></label>
                         <input id="full-name" name="fullName" type="text" autocomplete="name" placeholder="How should we address you?" required aria-describedby="full-name-error">
@@ -91,7 +93,7 @@
                         </div>
                     </div>
 
-                    <p class="privacy-note">This is an interest form only. No payment details are collected, and your entry stays in this browser.</p>
+                    <p class="privacy-note">Your registration details will be saved and used to email your confirmation. This is not a ticket or booking, and no payment details are collected.</p>
                     <p class="form-message" id="form-message" role="alert" hidden></p>
                     <button class="submit-button" id="submit-button" type="submit">
                         <span>Count me in</span>
@@ -105,7 +107,7 @@
                     <div class="confirmation-mark" aria-hidden="true">♪</div>
                     <p class="card-kicker">You’re on the list</p>
                     <h2>How lovely, <span id="confirmation-name"></span>.</h2>
-                    <p class="confirmation-copy">We’ve saved your interest for <strong id="confirmation-ticket"></strong> — <strong id="confirmation-count"></strong>. Keep this browser handy; this is a fan-made registration, not a ticket or booking.</p>
+                    <p class="confirmation-copy">We’ve saved your interest for <strong id="confirmation-ticket"></strong> — <strong id="confirmation-count"></strong>, and sent a confirmation email. This is a fan-made registration, not a ticket or booking.</p>
                 </div>
             </section>
 

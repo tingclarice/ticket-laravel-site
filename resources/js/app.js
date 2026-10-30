@@ -116,27 +116,50 @@ form.addEventListener('submit', async (event) => {
     }
 
     submitButton.disabled = true;
-    submitButton.querySelector('span').textContent = 'Saving your place…';
-
-    await new Promise((resolve) => window.requestAnimationFrame(resolve));
+    submitButton.querySelector('span').textContent = 'Sending your confirmation…';
+    let isSuccessful = false;
 
     try {
-        const savedEntries = JSON.parse(localStorage.getItem('laufeyInterestRegistrations') || '[]');
+        const response = await fetch(form.action, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            },
+            body: JSON.stringify({
+                fullName: formFields.fullName.value.trim(),
+                email: formFields.email.value.trim(),
+                ticketType: formFields.ticketType.value,
+                ticketCount: Number(formFields.ticketCount.value),
+            }),
+        });
+        let result;
 
-        if (!Array.isArray(savedEntries)) {
-            throw new Error('Saved registrations are not in the expected format.');
+        try {
+            result = await response.json();
+        } catch {
+            throw new Error('The server returned an unexpected response. Please refresh the page and try again.');
         }
 
-        const registration = {
-            fullName: formFields.fullName.value.trim(),
-            email: formFields.email.value.trim(),
-            ticketType: formFields.ticketType.value,
-            ticketCount: Number(formFields.ticketCount.value),
-            submittedAt: new Date().toISOString(),
-        };
+        if (response.status === 422) {
+            for (const [fieldName, field] of Object.entries(formFields)) {
+                const error = result.errors?.[fieldName]?.[0] ?? '';
 
-        // BACKEND: Replace this localStorage save with a POST request to your registration endpoint.
-        localStorage.setItem('laufeyInterestRegistrations', JSON.stringify([...savedEntries, registration]));
+                field.setAttribute('aria-invalid', error ? 'true' : 'false');
+                document.querySelector(`#${errorIds[fieldName]}`).textContent = error;
+            }
+
+            const firstInvalidField = Object.values(formFields).find((field) => field.getAttribute('aria-invalid') === 'true');
+            firstInvalidField?.focus();
+            return;
+        }
+
+        if (!response.ok) {
+            throw new Error(result.message || 'We couldn’t complete your registration. Please try again.');
+        }
+
+        const registration = result.registration;
 
         document.querySelector('#confirmation-name').textContent = registration.fullName;
         document.querySelector('#confirmation-ticket').textContent = registration.ticketType;
@@ -145,10 +168,14 @@ form.addEventListener('submit', async (event) => {
         form.hidden = true;
         confirmation.hidden = false;
         confirmation.focus();
+        isSuccessful = true;
     } catch (error) {
-        showFormMessage('We couldn’t save your interest in this browser. Check your browser storage settings and try again.');
-        submitButton.disabled = false;
-        submitButton.querySelector('span').textContent = 'Count me in';
-        console.error('Unable to save the fan registration locally.', error);
+        showFormMessage(error.message || 'We couldn’t complete your registration. Please check your connection and try again.');
+        console.error('Unable to submit the fan registration.', error);
+    } finally {
+        if (!isSuccessful) {
+            submitButton.disabled = false;
+            submitButton.querySelector('span').textContent = 'Count me in';
+        }
     }
 });
