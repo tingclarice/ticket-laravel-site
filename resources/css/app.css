@@ -1,9 +1,529 @@
-@import 'tailwindcss';
+:root {
+    color-scheme: light;
+    --color-cream: #f7f1e8;
+    --color-paper: #fffdf9;
+    --color-ink: #322330;
+    --color-muted: #81717b;
+    --color-rose: #a45e70;
+    --color-rose-dark: #824657;
+    --color-gold: #b58b52;
+    --color-line: #e9ddd2;
+    --color-error: #a33b43;
+    --font-display: "Playfair Display", Georgia, serif;
+    --font-body: "DM Sans", sans-serif;
+}
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
+* {
+    box-sizing: border-box;
+}
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    background:
+        radial-gradient(ellipse at 50% 0%, rgb(255 255 255 / 75%), transparent 48rem),
+        var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+button,
+input,
+select,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.page-shell {
+    width: min(100% - 40px, 760px);
+    margin: 0 auto;
+    padding: 66px 0 32px;
+}
+
+.hero {
+    position: relative;
+    padding: 0 18px 34px;
+    text-align: center;
+}
+
+.hero-note {
+    position: absolute;
+    color: rgb(164 94 112 / 35%);
+    font-family: var(--font-display);
+    line-height: 1;
+    user-select: none;
+}
+
+.hero-note-one {
+    top: 52px;
+    left: 7%;
+    font-size: 38px;
+    transform: rotate(-12deg);
+}
+
+.hero-note-two {
+    top: 4px;
+    right: 9%;
+    color: rgb(181 139 82 / 55%);
+    font-size: 29px;
+    transform: rotate(12deg);
+}
+
+.eyebrow,
+.card-kicker {
+    color: var(--color-rose);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.eyebrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 0 0 16px;
+}
+
+.eyebrow-line {
+    width: 23px;
+    height: 1px;
+    background: var(--color-gold);
+}
+
+.hero h1 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(58px, 10vw, 82px);
+    font-weight: 500;
+    letter-spacing: -0.065em;
+    line-height: 1.08;
+}
+
+.hero h1 em {
+    color: var(--color-rose);
+    font-weight: 400;
+}
+
+.hero-tagline {
+    max-width: 430px;
+    margin: 15px auto 25px;
+    color: var(--color-muted);
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.concert-details {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(14px, 4vw, 35px);
+}
+
+.detail-item {
+    display: grid;
+    gap: 5px;
+    min-width: 0;
+}
+
+.detail-label {
+    color: var(--color-muted);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.17em;
+    text-transform: uppercase;
+}
+
+.detail-value {
+    font-family: var(--font-display);
+    font-size: 15px;
+}
+
+.detail-divider {
+    width: 1px;
+    height: 29px;
+    background: var(--color-line);
+}
+
+.registration-card {
+    position: relative;
+    overflow: hidden;
+    padding: 39px clamp(23px, 7vw, 66px) 42px;
+    border: 1px solid rgb(181 139 82 / 52%);
+    border-radius: 8px;
+    background: var(--color-paper);
+    box-shadow: 0 20px 55px rgb(65 42 46 / 8%), 0 3px 10px rgb(65 42 46 / 3%);
+    text-align: center;
+}
+
+.registration-card::before {
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgb(233 221 210 / 80%);
+    border-radius: 4px;
+    content: "";
+    pointer-events: none;
+}
+
+.card-flourish {
+    position: relative;
+    z-index: 1;
+    width: 42px;
+    height: 14px;
+    margin: 0 auto 15px;
+    color: var(--color-gold);
+}
+
+.card-flourish svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.card-kicker {
+    margin: 0 0 8px;
+    font-size: 9px;
+}
+
+.registration-card h2 {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(29px, 5vw, 36px);
+    font-weight: 500;
+    letter-spacing: -0.035em;
+}
+
+.card-intro {
+    position: relative;
+    z-index: 1;
+    max-width: 390px;
+    margin: 10px auto 27px;
+    color: var(--color-muted);
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+#registration-form {
+    position: relative;
+    z-index: 1;
+    text-align: left;
+}
+
+.form-field {
+    min-width: 0;
+    margin-bottom: 17px;
+}
+
+.form-field label {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--color-ink);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.form-field label span {
+    color: var(--color-rose);
+}
+
+.form-field input,
+.form-field select {
+    width: 100%;
+    min-height: 48px;
+    padding: 0 14px;
+    border: 1px solid var(--color-line);
+    border-radius: 4px;
+    outline: none;
+    background: #fffefa;
+    color: var(--color-ink);
+    font-size: 13px;
+    transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.form-field input::placeholder {
+    color: #aa9da1;
+}
+
+.form-field input:focus,
+.form-field select:focus {
+    border-color: var(--color-rose);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgb(164 94 112 / 13%);
+}
+
+.form-field [aria-invalid="true"] {
+    border-color: var(--color-error);
+}
+
+.form-field select {
+    appearance: none;
+    padding-right: 36px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='m1 1.5 5 5 5-5' stroke='%2381717b' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.quantity-control {
+    display: grid;
+    grid-template-columns: 42px 1fr 42px;
+    min-height: 48px;
+    overflow: hidden;
+    border: 1px solid var(--color-line);
+    border-radius: 4px;
+    background: #fffefa;
+    transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.quantity-control:focus-within {
+    border-color: var(--color-rose);
+    box-shadow: 0 0 0 3px rgb(164 94 112 / 13%);
+}
+
+.quantity-control input {
+    min-height: 46px;
+    padding: 0 4px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    text-align: center;
+    appearance: textfield;
+}
+
+.quantity-control input::-webkit-inner-spin-button,
+.quantity-control input::-webkit-outer-spin-button {
+    margin: 0;
+    appearance: none;
+}
+
+.quantity-control input:focus {
+    box-shadow: none;
+}
+
+.quantity-button {
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-rose-dark);
+    cursor: pointer;
+    font-size: 19px;
+    transition: background 160ms ease, color 160ms ease;
+}
+
+.quantity-button:hover {
+    background: #f6eceb;
+}
+
+.quantity-button:focus-visible,
+.submit-button:focus-visible {
+    outline: 3px solid rgb(164 94 112 / 32%);
+    outline-offset: 3px;
+}
+
+.field-error {
+    min-height: 0;
+    margin: 0;
+    color: var(--color-error);
+    font-size: 11px;
+    line-height: 1.45;
+}
+
+.field-error:not(:empty) {
+    min-height: 16px;
+    margin-top: 5px;
+}
+
+.privacy-note {
+    margin: 1px 0 17px;
+    color: var(--color-muted);
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+.form-message {
+    margin: 0 0 14px;
+    color: var(--color-error);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.submit-button {
+    display: flex;
+    width: 100%;
+    min-height: 52px;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    border: 0;
+    border-radius: 4px;
+    background: var(--color-rose);
+    box-shadow: 0 5px 12px rgb(130 70 87 / 18%);
+    color: #fffdf9;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    transition: background 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.submit-button svg {
+    width: 18px;
+    height: 18px;
+    transition: transform 180ms ease;
+}
+
+.submit-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    background: var(--color-rose-dark);
+    box-shadow: 0 8px 17px rgb(130 70 87 / 24%);
+}
+
+.submit-button:hover:not(:disabled) svg {
+    transform: translateX(3px);
+}
+
+.submit-button:active:not(:disabled) {
+    transform: translateY(0) scale(0.99);
+}
+
+.submit-button:disabled {
+    cursor: wait;
+    opacity: 0.72;
+}
+
+.confirmation {
+    position: relative;
+    z-index: 1;
+    padding: 17px 0 10px;
+}
+
+.confirmation-mark {
+    display: grid;
+    width: 54px;
+    height: 54px;
+    place-items: center;
+    margin: 0 auto 18px;
+    border: 1px solid rgb(181 139 82 / 55%);
+    border-radius: 50%;
+    color: var(--color-rose);
+    font-family: var(--font-display);
+    font-size: 26px;
+}
+
+.confirmation h2 {
+    font-size: clamp(26px, 5vw, 34px);
+}
+
+.confirmation-copy {
+    max-width: 420px;
+    margin: 13px auto 0;
+    color: var(--color-muted);
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.confirmation-copy strong {
+    color: var(--color-ink);
+    font-weight: 600;
+}
+
+.page-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 24px 0 0;
+    color: var(--color-muted);
+    text-align: center;
+}
+
+.page-footer span {
+    color: var(--color-gold);
+    font-size: 10px;
+}
+
+.page-footer p {
+    margin: 0;
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+@media (max-width: 560px) {
+    .page-shell {
+        width: min(100% - 28px, 460px);
+        padding-top: 43px;
+    }
+
+    .hero {
+        padding: 0 3px 27px;
+    }
+
+    .hero-note-one {
+        top: 47px;
+        left: 1%;
+        font-size: 27px;
+    }
+
+    .hero-note-two {
+        right: 3%;
+        font-size: 23px;
+    }
+
+    .hero-tagline {
+        max-width: 330px;
+        margin-top: 11px;
+        font-size: 13px;
+    }
+
+    .concert-details {
+        gap: 10px;
+    }
+
+    .detail-value {
+        font-size: 12px;
+    }
+
+    .detail-label {
+        font-size: 8px;
+    }
+
+    .registration-card {
+        padding: 32px 22px 30px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
 }
