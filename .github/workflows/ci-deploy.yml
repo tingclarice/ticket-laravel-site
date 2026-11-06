@@ -43,6 +43,8 @@ jobs:
         run: npm run build
 
       - name: Run tests
+        env:
+          APP_KEY: base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
         run: php artisan test --compact
 
       - name: Save built assets for deployment
